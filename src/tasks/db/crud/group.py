@@ -10,11 +10,11 @@ class GroupCRUD:
         res = await session.execute(select(Group).where(Group.name == name))
         return res.scalar_one_or_none()
 
-    async def create(self, session: AsyncSession, name: str, manager: User | None) -> Group:
+    async def create(self, session: AsyncSession, name: str, manager: User | None, teacher: User | None) -> Group:
         exists = await self.get_by_name(session, name)
         if exists:
             raise ValueError("group_name_exists")
-        obj = Group(name=name, manager=manager)
+        obj = Group(name=name, manager=manager, teacher=teacher)
         session.add(obj)
         try:
             await session.commit()
@@ -25,12 +25,28 @@ class GroupCRUD:
         return obj
 
     async def get(self, session: AsyncSession, group_id: int) -> Group | None:
-        stmt = select(Group).options(selectinload(Group.students)).where(Group.id == group_id)
+        stmt = (
+            select(Group)
+            .options(
+                selectinload(Group.students),
+                selectinload(Group.manager),
+                selectinload(Group.teacher),
+            )
+            .where(Group.id == group_id)
+        )
         res = await session.execute(stmt)
         return res.scalar_one_or_none()
 
     async def list_groups(self, session: AsyncSession) -> list[Group]:
-        stmt = select(Group).options(selectinload(Group.students)).order_by(Group.id)
+        stmt = (
+            select(Group)
+            .options(
+                selectinload(Group.students),
+                selectinload(Group.manager),
+                selectinload(Group.teacher),
+            )
+            .order_by(Group.id)
+        )
         res = await session.execute(stmt)
         return list(res.scalars().all())
 

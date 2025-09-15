@@ -16,5 +16,6 @@ class User(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow)
 
     groups: Mapped[list["Group"]] = relationship(back_populates="students", secondary="groups_students", lazy="selectin")
-    managed_groups: Mapped[list["Group"]] = relationship(back_populates="manager", lazy="selectin")
+    managed_groups: Mapped[list["Group"]] = relationship("Group", back_populates="manager", foreign_keys="Group.manager_id", lazy="selectin")
+    teaching_groups: Mapped[list["Group"]] = relationship("Group", back_populates="teacher", foreign_keys="Group.teacher_id", lazy="selectin")
     tasks: Mapped[list["Task"]] = relationship(back_populates="student", lazy="selectin")

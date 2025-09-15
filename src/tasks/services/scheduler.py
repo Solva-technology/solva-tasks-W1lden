@@ -20,6 +20,9 @@ async def notify_overdue_once():
                 await telegram_service.send_message(t.student.telegram_id, f"Просрочен дедлайн задачи: {t.title}")
             if t.group and t.group.manager and t.group.manager.telegram_id:
                 await telegram_service.send_message(t.group.manager.telegram_id, f"Студент просрочил задачу: {t.title}")
+            if t.group and t.group.teacher and t.group.teacher.telegram_id:
+                name = t.student.full_name or t.student.username or t.student.telegram_id
+                await telegram_service.send_message(t.group.teacher.telegram_id, f"Просрочен дедлайн у студента {name}: {t.title}")
             await task_crud.mark_deadline_notified(session, t, now)
             logger.info("deadline_notice_sent", extra={"action": "deadline_notice_sent", "task_id": t.id})
 
