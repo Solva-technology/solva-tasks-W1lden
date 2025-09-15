@@ -8,6 +8,9 @@ class TelegramService:
     async def send_message(self, chat_id: str, text: str):
         url = f"{self.base}/sendMessage"
         async with httpx.AsyncClient(timeout=10) as client:
-            await client.post(url, json={"chat_id": chat_id, "text": text})
+            try:
+                await client.post(url, json={"chat_id": chat_id, "text": text})
+            except Exception:
+                return
 
 telegram_service = TelegramService()

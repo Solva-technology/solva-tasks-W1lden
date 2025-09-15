@@ -25,7 +25,7 @@ async def create_group(payload: GroupCreateIn, db: AsyncSession = Depends(get_db
 
 @router.get("/", response_model=list[GroupOut])
 async def list_groups(db: AsyncSession = Depends(get_db)):
-    items = await group_crud.list(db)
+    items = await group_crud.list_groups(db)
     return [GroupOut(id=g.id, name=g.name, manager_id=g.manager_id, students=[s.id for s in g.students]) for g in items]
 
 @router.get("/{group_id}", response_model=GroupOut)

@@ -29,7 +29,7 @@ class GroupCRUD:
         res = await session.execute(stmt)
         return res.scalar_one_or_none()
 
-    async def list(self, session: AsyncSession) -> list[Group]:
+    async def list_groups(self, session: AsyncSession) -> list[Group]:
         stmt = select(Group).options(selectinload(Group.students)).order_by(Group.id)
         res = await session.execute(stmt)
         return list(res.scalars().all())

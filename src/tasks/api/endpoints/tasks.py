@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from tasks.api.schemas.task import TaskCreateIn, TaskOut, TaskPatchIn
 from tasks.api.deps import get_db, get_current_user, require_roles
 from tasks.core.enums import UserRole, TaskStatus
+from tasks.core.constants import PAGE_SIZE_DEFAULT, PAGE_SIZE_MAX
 from tasks.db.crud.task import task_crud
 from tasks.db.crud.user import user_crud
 from tasks.db.crud.group import group_crud
@@ -26,10 +27,18 @@ async def create_task(payload: TaskCreateIn, db: AsyncSession = Depends(get_db),
     return obj
 
 @router.get("/", response_model=list[TaskOut])
-async def list_tasks(student_id: int | None = None, group_id: int | None = None, status_q: TaskStatus | None = None, db: AsyncSession = Depends(get_db), current=Depends(get_current_user)):
+async def list_tasks(
+    student_id: int | None = None,
+    group_id: int | None = None,
+    status: TaskStatus | None = Query(default=None),
+    limit: int = Query(default=PAGE_SIZE_DEFAULT, ge=1, le=PAGE_SIZE_MAX),
+    offset: int = Query(default=0, ge=0),
+    db: AsyncSession = Depends(get_db),
+    current=Depends(get_current_user),
+):
     if current.role == UserRole.student:
         student_id = current.id
-    items = await task_crud.list(db, student_id, group_id, status_q)
+    items = await task_crud.list_tasks(db, student_id, group_id, status, limit, offset)
     return items
 
 @router.get("/{task_id}", response_model=TaskOut)
