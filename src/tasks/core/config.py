@@ -7,6 +7,9 @@ class Settings(BaseSettings):
     JWT_SECRET: str
     JWT_ALG: str
     TELEGRAM_BOT_TOKEN: str
+    PUBLIC_BASE_URL: str
+    TELEGRAM_WEBHOOK_PATH: str = "/telegram/webhook"
+    TELEGRAM_WEBHOOK_SECRET: str = Field(min_length=16)
 
     model_config = SettingsConfigDict(env_file=".env", extra="allow")
 

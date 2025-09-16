@@ -13,4 +13,11 @@ class TelegramService:
             except Exception:
                 return
 
+    async def set_webhook(self, url: str, secret: str):
+        async with httpx.AsyncClient(timeout=10) as client:
+            try:
+                await client.post(f"{self.base}/setWebhook", json={"url": url, "secret_token": secret, "drop_pending_updates": True})
+            except Exception:
+                return
+
 telegram_service = TelegramService()
