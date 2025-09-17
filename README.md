@@ -116,7 +116,7 @@ https://github.com/W1lden/PyTasks.git
 ```env_example
 APP_TITLE="PyTasks"
 DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/postgres
-JWT_SECRET=change_this_secret_please
+JWT_SECRET=secret
 JWT_ALG=HS256
 TELEGRAM_BOT_TOKEN=8259991608:AAHyJe5mJ58B_kueqHkQ3EWdLsVpRoaNcoQ
 POSTGRES_USER=postgres
