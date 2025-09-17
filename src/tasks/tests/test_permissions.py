@@ -36,7 +36,7 @@ async def test_student_cannot_create_group_or_task(client, db_session):
         admin.role = UserRole.admin
         await s.commit()
 
-    r_teacher = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={
             "telegram_id": "teachx",

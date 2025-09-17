@@ -4,9 +4,6 @@ import pytest
 from sqlalchemy import select
 
 from tasks.core.enums import UserRole
-from tasks.db.crud.group import group_crud
-from tasks.db.crud.task import task_crud
-from tasks.db.crud.user import user_crud
 from tasks.db.models.user import User
 from tasks.services.scheduler import notify_overdue_once
 
@@ -31,7 +28,7 @@ async def test_overdue_deadline_notifies_all(
         admin.role = UserRole.admin
         await s.commit()
 
-    r_teacher = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={
             "telegram_id": "teach3",
@@ -39,7 +36,7 @@ async def test_overdue_deadline_notifies_all(
             "full_name": "Teach Three",
         },
     )
-    r_manager = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={
             "telegram_id": "man3",
@@ -47,7 +44,7 @@ async def test_overdue_deadline_notifies_all(
             "full_name": "Man Three",
         },
     )
-    r_student = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={
             "telegram_id": "stud3",
@@ -98,7 +95,7 @@ async def test_overdue_deadline_notifies_all(
             "deadline": past,
         },
     )
-    tid = r_task.json()["id"]
+    r_task.json()["id"]
 
     sent_messages.clear()
     await notify_overdue_once()

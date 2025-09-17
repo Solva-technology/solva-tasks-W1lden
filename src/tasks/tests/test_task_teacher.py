@@ -23,7 +23,7 @@ async def test_task_create_by_teacher(client, db_session, sent_messages):
         teacher.role = UserRole.teacher
         await s.commit()
 
-    r_manager = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={"telegram_id": "manA", "username": "manA", "full_name": "Man A"},
     )
@@ -45,7 +45,7 @@ async def test_task_create_by_teacher(client, db_session, sent_messages):
     )
     gid = r_group.json()["id"]
 
-    r_student = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={
             "telegram_id": "studA",

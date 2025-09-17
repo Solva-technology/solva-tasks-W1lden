@@ -31,7 +31,7 @@ async def telegram_webhook(
     )
     if not chat_id:
         return {"ok": True}
-    user = await user_crud.create_or_update_telegram(
+    await user_crud.create_or_update_telegram(
         db, chat_id, username, full_name
     )
     if text.strip().lower().startswith("/start"):

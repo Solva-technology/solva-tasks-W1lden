@@ -25,7 +25,7 @@ async def test_task_create_and_status_flow(client, db_session, sent_messages):
         admin.role = UserRole.admin
         await s.commit()
 
-    r_teacher = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={
             "telegram_id": "teach2",
@@ -33,7 +33,7 @@ async def test_task_create_and_status_flow(client, db_session, sent_messages):
             "full_name": "Teach Two",
         },
     )
-    r_manager = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={"telegram_id": "man2", "username": "m2", "full_name": "Man Two"},
     )

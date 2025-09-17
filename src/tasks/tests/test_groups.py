@@ -1,7 +1,6 @@
 import pytest
 from sqlalchemy import select
 
-from tasks.core.db import SessionLocal
 from tasks.core.enums import UserRole
 from tasks.db.models.user import User
 
@@ -23,7 +22,7 @@ async def test_create_group_and_add_student(client, db_session):
         admin.role = UserRole.admin
         await s.commit()
 
-    r_teacher = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={
             "telegram_id": "teach1",
@@ -45,7 +44,7 @@ async def test_create_group_and_add_student(client, db_session):
     assert r.status_code == 200
     gid = r.json()["id"]
 
-    r_st = await client.post(
+    await client.post(
         "/auth/telegram/callback",
         json={
             "telegram_id": "stud1",

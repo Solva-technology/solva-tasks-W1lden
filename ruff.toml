@@ -5,3 +5,6 @@ extend-exclude = ["src/migrations"]
 [lint]
 select = ["E", "F", "I", "B"]
 ignore = ["E501"]
+
+[lint.per-file-ignores]
+"src/tasks/db/models/*.py" = ["F821"]
