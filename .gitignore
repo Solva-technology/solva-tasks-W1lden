@@ -207,3 +207,14 @@ marimo/_lsp/
 __marimo__/
 
 logs/*.log
+
+*.db
+*.sqlite
+*.sqlite3
+.pytest_cache/
+__pycache__/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+src/tasks/logs/
