@@ -1,5 +1,7 @@
 from pydantic import BaseModel
+
 from tasks.core.enums import UserRole
+
 
 class UserOut(BaseModel):
     id: int

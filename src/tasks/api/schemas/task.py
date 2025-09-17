@@ -1,6 +1,9 @@
 from datetime import datetime
+
 from pydantic import BaseModel
+
 from tasks.core.enums import TaskStatus
+
 
 class TaskCreateIn(BaseModel):
     title: str
@@ -8,6 +11,7 @@ class TaskCreateIn(BaseModel):
     student_id: int
     group_id: int
     deadline: datetime | None = None
+
 
 class TaskOut(BaseModel):
     id: int
@@ -20,6 +24,7 @@ class TaskOut(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class TaskPatchIn(BaseModel):
     title: str | None = None

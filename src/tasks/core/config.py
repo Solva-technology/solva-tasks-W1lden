@@ -1,5 +1,6 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     APP_TITLE: str
@@ -12,5 +13,6 @@ class Settings(BaseSettings):
     TELEGRAM_WEBHOOK_SECRET: str = Field(min_length=16)
 
     model_config = SettingsConfigDict(env_file=".env", extra="allow")
+
 
 settings = Settings()
