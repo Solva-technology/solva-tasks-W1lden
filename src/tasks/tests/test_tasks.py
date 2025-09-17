@@ -48,4 +48,4 @@ async def test_task_create_and_status_flow(client, db_session, sent_messages):
     tid = r_task.json()["id"]
     r_patch = await client.patch(f"/tasks/{tid}", headers={"Authorization": f"Bearer {student_token}"}, json={"status": "сдана"})
     assert r_patch.status_code == 200
-    assert any(c[0] == "man2" and "Статус задачи" in c[1] for c in sent_messages) or any(c[0] == "teach2" and "Статус задачи" in c[1] for c in sent_messages)
+    assert any(c[0] == "man2" and "Статус задачи" in c[1] for c in sent_messages)
